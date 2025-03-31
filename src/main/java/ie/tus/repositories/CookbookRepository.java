@@ -9,6 +9,6 @@ import ie.tus.entities.RecipesByBook;
 
 public interface CookbookRepository extends JpaRepository<Cookbook, Integer> {
 
-    List<Cookbook> findByCategoryId(int category_id);
+    //List<Cookbook> findByCategoryId(int categoryId);
     List<Cookbook> deleteByBookId(int bookId);
 }

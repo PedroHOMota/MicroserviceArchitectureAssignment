@@ -27,7 +27,7 @@ public class CookbookService {
         final Cookbook savedBook = cookbookRepo.findById(id).get();
 
         savedBook.setName(cookbook.getName());
-        savedBook.setCategory(cookbook.getCategory());
+        //savedBook.setCategory(cookbook.getCategory());
 
         cookbookRepo.save(savedBook);
     }

@@ -88,7 +88,7 @@ public class RecipesController {
         return ResponseEntity.ok("recipes");
     }
 
-    @PutMapping("/recipes/{id}")
+    @PutMapping("/recipes/update/{id}")
     public ResponseEntity updateRecipe(@PathVariable int id, @RequestBody RecipeDTO dto){
         recipesService.updateRecipe(id, dto);
         return ResponseEntity.ok("updated");
