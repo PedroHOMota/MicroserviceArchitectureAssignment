@@ -1,4 +1,4 @@
-package com.discovery.eureka;
+package ie.tus.eureka;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

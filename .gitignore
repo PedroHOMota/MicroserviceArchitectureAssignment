@@ -6,3 +6,9 @@
 .idea/misc.xml
 .idea/uiDesigner.xml
 .idea/vcs.xml
+/server/target
+/eureka/target
+/client/target
+/config_server/target
+/config_server/target
+/.idea

@@ -1,4 +1,4 @@
-package com.discovery.eureka;
+package ie.tus.eureka;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
