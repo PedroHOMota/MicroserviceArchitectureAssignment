@@ -26,6 +26,7 @@
 		<module>eureka</module>
 		<module>config_server</module>
 		<module>client</module>
+		<module>gateway</module>
 	</modules>
 
 	<dependencies>
