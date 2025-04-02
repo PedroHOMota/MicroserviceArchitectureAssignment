@@ -37,6 +37,10 @@ public class RecipesService {
         return recipesRepository.findById(id).get();
     }
 
+    public List<Recipe> getAllRecipe(){
+        return recipesRepository.findAll();
+    }
+
     public void deleteRecipe(int recipeId){
         recipesRepository.deleteById(recipeId);
     }

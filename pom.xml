@@ -27,6 +27,7 @@
 		<module>config_server</module>
 		<module>client</module>
 		<module>gateway</module>
+		<module>recipes_server</module>
 	</modules>
 
 	<dependencies>

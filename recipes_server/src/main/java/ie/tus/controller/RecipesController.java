@@ -1,5 +1,7 @@
 package ie.tus.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -62,6 +64,12 @@ public class RecipesController {
     public ResponseEntity getRecipe(@PathVariable int id){
         final Recipe recipe = recipesService.getRecipe(id);
         return ResponseEntity.ok(recipe);
+    }
+
+    @GetMapping("/recipes/all")
+    public ResponseEntity<List<Recipe>> getRecipe(){
+        final List<Recipe> allRecipes = recipesService.getAllRecipe();
+        return ResponseEntity.ok(allRecipes);
     }
 
     @DeleteMapping("/recipes/{id}")

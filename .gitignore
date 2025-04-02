@@ -13,3 +13,5 @@
 /config_server/target
 /.idea
 /gateway/target
+/recipes_server/target
+/cookbok_server/target
