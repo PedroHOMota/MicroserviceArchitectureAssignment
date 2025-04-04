@@ -17,9 +17,9 @@ public class GatewayApplication {
 	public RouteLocator mainRoute(RouteLocatorBuilder routeLocatorBuilder){
 		return routeLocatorBuilder.routes().route(predicate ->
 			predicate.path("/cookbook/**")
+				//.filters(f -> f.rewritePath())
 				.uri("lb://COOKBOOK")
-		).route(predicate ->
-			predicate.path("/recipe/**").uri("lb://RECIPE")).build();
+		).build();
 	}
 
 }
