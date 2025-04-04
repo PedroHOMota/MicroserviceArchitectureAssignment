@@ -15,6 +15,8 @@ import ie.tus.entities.Cookbook;
 import ie.tus.DTO.RecipesByBookDTO;
 import ie.tus.repositories.CategoryRepository;
 import ie.tus.repositories.CookbookRepository;
+import ie.tus.util.PerformRest;
+import jakarta.inject.Inject;
 
 @Service
 public class CookbookService {
@@ -27,7 +29,14 @@ public class CookbookService {
     @Autowired
     private EurekaClient eurekaClient;
 
-    final RestClient restClient = RestClient.builder().build();
+    final StringBuilder urlBuilder = new StringBuilder();
+
+    final PerformRest restClient;
+
+    @Inject
+    public CookbookService(final PerformRest restClient){
+        this.restClient = restClient;
+    }
 
     public Cookbook createCookBook(String cookbookTitle){
         final Cookbook cookbook = new Cookbook();
@@ -87,43 +96,23 @@ public class CookbookService {
 
 
     public RecipesByBookDTO getRecipesForBook(int id){
-        final InstanceInfo instanceInfo = eurekaClient.getApplication("RECIPES").getInstances().stream().findAny().get();
+        urlBuilder.setLength(0);
+        urlBuilder.append(restClient.getBaseUrl("RECIPES")).append("/recipes/byBook/").append(id);
 
 
-        final int port = instanceInfo.getPort();
-        final String ipAddr = instanceInfo.getIPAddr();
+        System.out.println("\nURL: "+urlBuilder.toString());
 
-        StringBuilder url = new StringBuilder();
-        url.append("http://").append(ipAddr).append(":").append(port)
-            .append("/recipes/byBook/").append(id);
-
-
-        System.out.println("\nURL: "+url.toString());
-        return restClient.get()
-            .uri(url.toString())
-            .retrieve()
-            .body(RecipesByBookDTO.class);
+        return (RecipesByBookDTO) restClient.performGet(urlBuilder.toString(),RecipesByBookDTO.class);
     }
 
 
     public RecipesByBookDTO saveRecipesToBook(int id, AddRecipesToBook recipes){
-        final InstanceInfo instanceInfo = eurekaClient.getApplication("RECIPES").getInstances().stream().findAny().get();
+        urlBuilder.setLength(0);
+        urlBuilder.append(restClient.getBaseUrl("RECIPES")).append("/recipes/byBook");
 
+        System.out.println("\nURL: "+urlBuilder.toString());
 
-        final int port = instanceInfo.getPort();
-        final String ipAddr = instanceInfo.getIPAddr();
-
-        StringBuilder url = new StringBuilder();
-        url.append("http://").append(ipAddr).append(":").append(port)
-            .append("/recipes/byBook");
-
-
-        System.out.println("\nURL: "+url.toString());
-        return restClient.post()
-            .uri(url.toString())
-            .body(recipes)
-            .retrieve()
-            .body(RecipesByBookDTO.class);
+        return (RecipesByBookDTO) restClient.performPost(urlBuilder.toString(), recipes,RecipesByBookDTO.class);
     }
 
 }

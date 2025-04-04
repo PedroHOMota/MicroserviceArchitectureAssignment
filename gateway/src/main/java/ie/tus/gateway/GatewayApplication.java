@@ -16,9 +16,10 @@ public class GatewayApplication {
 	@Bean
 	public RouteLocator mainRoute(RouteLocatorBuilder routeLocatorBuilder){
 		return routeLocatorBuilder.routes().route(predicate ->
-			predicate.path("/**")
-				.uri("lb://APIREST")
-		).build();
+			predicate.path("/cookbook/**")
+				.uri("lb://COOKBOOK")
+		).route(predicate ->
+			predicate.path("/recipe/**").uri("lb://RECIPE")).build();
 	}
 
 }

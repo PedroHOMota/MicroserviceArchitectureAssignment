@@ -22,7 +22,7 @@
 	</properties>
 
 	<modules>
-		<module>server</module>
+		<module>cookbok_server</module>
 		<module>eureka</module>
 		<module>config_server</module>
 		<module>client</module>

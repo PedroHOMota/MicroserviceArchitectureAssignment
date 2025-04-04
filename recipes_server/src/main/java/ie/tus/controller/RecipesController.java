@@ -72,7 +72,7 @@ public class RecipesController {
         return ResponseEntity.ok(recipesService.saveRecipesToBook(addRecipesToBook));
     }
 
-    @PutMapping("/recipes/update/{id}")
+    @PutMapping("/recipes/{id}")
     public ResponseEntity updateRecipe(@PathVariable int id, @RequestBody RecipeDTO dto){
         return ResponseEntity.ok(recipesService.updateRecipe(id, dto));
     }
