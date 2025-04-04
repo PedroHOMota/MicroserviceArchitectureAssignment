@@ -1,23 +1,3 @@
--- SERVICE A
-create table CATEGORY (
-   category_id INT NOT NULL auto_increment,
-   name VARCHAR(40) default NULL,
-   PRIMARY KEY (category_id)
-);
-
-create table COOKBOOK (
-   book_id INT NOT NULL auto_increment,
-   name VARCHAR(40) default NULL,
-   category_id VARCHAR(40) default NULL,
-   PRIMARY KEY (book_id),
-   FOREIGN KEY (category_id) REFERENCES CATEGORY(category_id)
-);
-
-
-
-
--- SERVICE B
-
 create table RECIPE (
    recipe_id INT NOT NULL auto_increment,
    title VARCHAR(400) default NULL,
@@ -29,7 +9,7 @@ create table RECIPE (
 
 
 create table RECIPESBYBOOK(
-    recipe_by_book_id INT NOT NULL auto_increment,
+    recipe_by_book_id INT NOT NULL,
     book_id INT NOT NULL,
     recipe_id INT NOT NULL,
     PRIMARY KEY (recipe_by_book_id),

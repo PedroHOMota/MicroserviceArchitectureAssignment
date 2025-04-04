@@ -1,10 +1,20 @@
 package ie.tus.DTO;
 
-public class RecipeDTO{
+public class RecipeDTO {
+    private int recipeId;
+
     private String recipe;
     private String ingredients;
     private String author;
     private String title;
+
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(final int recipeId) {
+        this.recipeId = recipeId;
+    }
 
     public String getRecipe() {
         return recipe;

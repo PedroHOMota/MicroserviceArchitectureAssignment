@@ -23,14 +23,14 @@ public class RecipesService {
     private RecipesRepository recipesRepository;
 
 
-    public void saveRecipe(RecipeDTO dto){
+    public Recipe saveRecipe(RecipeDTO dto){
         Recipe recipe = new Recipe();
 
         recipe.setRecipe(dto.getRecipe());
         recipe.setAuthor(dto.getAuthor());
         recipe.setTitle(dto.getTitle());
         recipe.setIngredients(dto.getIngredients());
-        recipesRepository.save(recipe);
+        return recipesRepository.save(recipe);
     }
 
     public Recipe getRecipe(int id){
@@ -43,20 +43,20 @@ public class RecipesService {
 
     public void deleteRecipe(int recipeId){
         recipesRepository.deleteById(recipeId);
+
     }
 
-    public void updateRecipe(int recipeId, RecipeDTO updated){
+    public Recipe updateRecipe(int recipeId, RecipeDTO updated){
         final Recipe recipe = getRecipe(recipeId);
         recipe.setRecipe(updated.getRecipe());
         recipe.setIngredients(updated.getIngredients());
         recipe.setTitle(updated.getTitle());
         recipe.setIngredients(updated.getIngredients());
 
-        recipesRepository.save(recipe);
-
+        return recipesRepository.save(recipe);
     }
 
-    public void saveRecipesToBook(AddRecipesToBook addRecipesToBook){
+    public RecipesByBook saveRecipesToBook(AddRecipesToBook addRecipesToBook){
         List<Recipe> recipes = new ArrayList<>();
         RecipesByBook recipesByBook = new RecipesByBook();
 
@@ -68,7 +68,7 @@ public class RecipesService {
         recipesByBook.setRecipes(recipes);
         recipesByBook.setBookId(addRecipesToBook.getBookId());
 
-        recipesByBooksRepo.save(recipesByBook);
+        return recipesByBooksRepo.save(recipesByBook);
     }
 
     public RecipesByBook addRecipeToBook(final int bookId, int[] receipesId){
@@ -77,12 +77,18 @@ public class RecipesService {
         final List<Recipe> recipes = byBookId.getRecipes();
 
         for (int i : receipesId) {
-            byBookId.getRecipes().add(getRecipe(i));
+            try {
+                Recipe recipe = getRecipe(i);
+
+                if (!byBookId.getRecipes().contains(recipe)) {
+                    byBookId.getRecipes().add(getRecipe(i));
+                }
+            } catch (Exception e) {
+                System.out.println("Recipe "+i+" doesnt exist");
+            }
         }
 
-        recipesByBooksRepo.save(byBookId);
-
-        return byBookId;
+        return recipesByBooksRepo.save(byBookId);
     }
 
     public RecipesByBook getRecipesBook(int bookId){

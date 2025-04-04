@@ -17,13 +17,12 @@ import jakarta.persistence.Table;
 @Table(name = "RECIPESBYBOOK")
 public class RecipesByBook {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "book_id", nullable = false)
     private int bookId;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany
     private List<Recipe> recipes;
 
     public int getId() {

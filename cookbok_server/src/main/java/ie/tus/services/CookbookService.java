@@ -1,18 +1,22 @@
 package ie.tus.services;
 
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 
-import ie.tus.entities.Category;
+import ie.tus.DTO.AddRecipesToBook;
 import ie.tus.entities.Cookbook;
+import ie.tus.DTO.RecipesByBookDTO;
 import ie.tus.repositories.CategoryRepository;
 import ie.tus.repositories.CookbookRepository;
 
+@Service
 public class CookbookService {
     @Autowired
     CategoryRepository categoryRepo;
@@ -23,8 +27,12 @@ public class CookbookService {
     @Autowired
     private EurekaClient eurekaClient;
 
-    public void createCookBook(Cookbook cookbook){
-        cookbookRepo.save(cookbook);
+    final RestClient restClient = RestClient.builder().build();
+
+    public Cookbook createCookBook(String cookbookTitle){
+        final Cookbook cookbook = new Cookbook();
+        cookbook.setName(cookbookTitle);
+        return cookbookRepo.save(cookbook);
     }
 
     public HashMap<Integer,String> getAllCookbooks(){
@@ -32,6 +40,16 @@ public class CookbookService {
         cookbookRepo.findAll().stream().map(cookbook -> map.put(cookbook.getBookId(),cookbook.getName()));
 
         return map;
+    }
+
+    public List<Cookbook> getAllCookbookS(){
+
+        return cookbookRepo.findAll();
+    }
+
+    public Cookbook getAllCookbookS(int id){
+
+        return cookbookRepo.findById(id).get();
     }
 
 //    public HashMap<Integer,String> getAllCategories(){
@@ -44,13 +62,12 @@ public class CookbookService {
         cookbookRepo.deleteByBookId(id);
     }
 
-    public void updateCookBook(int id, Cookbook cookbook){
+    public Cookbook updateCookBook(int id, String cookbookTitle){
         final Cookbook savedBook = cookbookRepo.findById(id).get();
 
-        savedBook.setName(cookbook.getName());
-        //savedBook.setCategory(cookbook.getCategory());
+        savedBook.setName(cookbookTitle);
 
-        cookbookRepo.save(savedBook);
+        return cookbookRepo.save(savedBook);
     }
 
 //    public void createCategory(Category category){
@@ -69,7 +86,44 @@ public class CookbookService {
 //    }
 
 
-    public void getRecipes(int id){
-        final InstanceInfo instanceInfo = eurekaClient.getApplication("").getInstances().stream().findAny().get();
+    public RecipesByBookDTO getRecipesForBook(int id){
+        final InstanceInfo instanceInfo = eurekaClient.getApplication("RECIPES").getInstances().stream().findAny().get();
+
+
+        final int port = instanceInfo.getPort();
+        final String ipAddr = instanceInfo.getIPAddr();
+
+        StringBuilder url = new StringBuilder();
+        url.append("http://").append(ipAddr).append(":").append(port)
+            .append("/recipes/byBook/").append(id);
+
+
+        System.out.println("\nURL: "+url.toString());
+        return restClient.get()
+            .uri(url.toString())
+            .retrieve()
+            .body(RecipesByBookDTO.class);
     }
+
+
+    public RecipesByBookDTO saveRecipesToBook(int id, AddRecipesToBook recipes){
+        final InstanceInfo instanceInfo = eurekaClient.getApplication("RECIPES").getInstances().stream().findAny().get();
+
+
+        final int port = instanceInfo.getPort();
+        final String ipAddr = instanceInfo.getIPAddr();
+
+        StringBuilder url = new StringBuilder();
+        url.append("http://").append(ipAddr).append(":").append(port)
+            .append("/recipes/byBook");
+
+
+        System.out.println("\nURL: "+url.toString());
+        return restClient.post()
+            .uri(url.toString())
+            .body(recipes)
+            .retrieve()
+            .body(RecipesByBookDTO.class);
+    }
+
 }
