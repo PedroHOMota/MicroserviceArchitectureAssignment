@@ -49,9 +49,6 @@ public class CookBookController {
 
     @GetMapping("/cookbook/{id}/recipes")
     public ResponseEntity<RecipesByBookDTO> getCookbookRecipes(@PathVariable final int id){
-        //send to second one
-        ;
-        //cookbookService
         return ResponseEntity.ok(cookbookService.getRecipesForBook(id));
     }
 

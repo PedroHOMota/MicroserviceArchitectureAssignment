@@ -15,6 +15,7 @@ package ie.tus.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import com.netflix.discovery.EurekaClient;
@@ -25,6 +26,7 @@ import ie.tus.DTO.RecipesByBookDTO;
 import ie.tus.util.PerformRest;
 import jakarta.inject.Inject;
 
+@Service
 public class RecipeForwarderService {
 
     private final EurekaClient eurekaClient;
