@@ -44,8 +44,10 @@ public class CookbookService {
 
     public HashMap<Integer,String> getAllCookbooks(){
         final HashMap<Integer,String> map = new HashMap<Integer,String>();
-        cookbookRepo.findAll().stream().map(cookbook -> map.put(cookbook.getBookId(),cookbook.getName()));
-
+        List<Cookbook> all = cookbookRepo.findAll();
+        all.forEach(cookbook -> {
+            map.put(cookbook.getBookId(),cookbook.getName());
+        });
         return map;
     }
 
@@ -54,7 +56,7 @@ public class CookbookService {
         return cookbookRepo.findAll();
     }
 
-    public Cookbook getAllCookbookS(int id){
+    public Cookbook getCookBookById(int id){
 
         return cookbookRepo.findById(id).get();
     }
