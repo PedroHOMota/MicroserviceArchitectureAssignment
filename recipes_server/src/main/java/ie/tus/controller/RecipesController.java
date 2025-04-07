@@ -33,83 +33,85 @@ public class RecipesController {
 
     @GetMapping("/recipes/byBook/{bookId}")
     public ResponseEntity<RecipesByBook> getCookbookRecipes(@PathVariable int bookId, @RequestHeader(TRACE_ID) String correlationId){
-        log.debug("getCookbookRecipes::Correlation id: {}",correlationId);
+        log.error("getCookbookRecipes::Correlation id: {}",correlationId);
         final RecipesByBook recipesBook = recipesService.getRecipesBook(bookId);
-        log.debug("getCookbookRecipes::Executed::Correlation id: {}",correlationId);
+        log.error("getCookbookRecipes::Executed::Correlation id: {}",correlationId);
         return ResponseEntity.ok(recipesBook);
     }
 
     @GetMapping("/recipes/{id}")
     public ResponseEntity<Recipe> getRecipe(@PathVariable int id, @RequestHeader(TRACE_ID) String correlationId){
-        log.debug("getRecipe::Correlation id: {}",correlationId);
+        log.error("getRecipe::Correlation id: {}",correlationId);
         final Recipe recipe = recipesService.getRecipe(id);
-        log.debug("getRecipe::Executed::Correlation id: {}",correlationId);
+        log.error("getRecipe::Executed::Correlation id: {}",correlationId);
         return ResponseEntity.ok(recipe);
     }
 
     @GetMapping("/recipes/all")
-    public ResponseEntity<List<Recipe>> getRecipes(@RequestHeader(TRACE_ID) String correlationId){
-        log.debug("getRecipes::Correlation id: {}",correlationId);
+    public ResponseEntity<List<Recipe>> getRecipes(){
+        String correlationId="aa";
+
+        log.error("getRecipes::Correlation id: {}",correlationId);
         final List<Recipe> allRecipes = recipesService.getAllRecipe();
-        log.debug("getRecipes::Executed::Correlation id: {}",correlationId);
+        log.error("getRecipes::Executed::Correlation id: {}",correlationId);
         return ResponseEntity.ok(allRecipes);
     }
 
     @DeleteMapping("/recipes/{id}")
     public ResponseEntity deleteRecipe(@PathVariable int id, @RequestHeader(TRACE_ID) String correlationId){
-        log.debug("deleteRecipe::Correlation id: {}",correlationId);
+        log.error("deleteRecipe::Correlation id: {}",correlationId);
         recipesService.deleteRecipe(id);
-        log.debug("deleteRecipe::Executed::Correlation id: {}",correlationId);
+        log.error("deleteRecipe::Executed::Correlation id: {}",correlationId);
         return ResponseEntity.ok("deleted");
     }
 
     @DeleteMapping("/recipes/byBook/{bookId}")
     public ResponseEntity deleteCookBook(@PathVariable int id, @RequestHeader(TRACE_ID) String correlationId){
-        log.debug("deleteCookBook::Correlation id: {}",correlationId);
+        log.error("deleteCookBook::Correlation id: {}",correlationId);
         recipesService.deleteRecipesBook(id);
-        log.debug("deleteCookBook::Executed::Correlation id: {}",correlationId);
+        log.error("deleteCookBook::Executed::Correlation id: {}",correlationId);
         return ResponseEntity.ok("deleted");
     }
 
     @PatchMapping("/recipes/byBook/{bookId}")
     public ResponseEntity deleteCookBookRecipes(@PathVariable int id, AddRecipesToBook addRecipesToBook, @RequestHeader(TRACE_ID) String correlationId){
-        log.debug("deleteCookBookRecipes::Correlation id: {}",correlationId);
+        log.error("deleteCookBookRecipes::Correlation id: {}",correlationId);
         //recipesService.deleteRecipesFromBook(id);
-        log.debug("deleteCookBookRecipes::Executed::Correlation id: {}",correlationId);
+        log.error("deleteCookBookRecipes::Executed::Correlation id: {}",correlationId);
 
         return ResponseEntity.ok("deleted");
     }
 
     @PostMapping("/recipes")
     public ResponseEntity createRecipe(@RequestBody RecipeDTO recipe, @RequestHeader(TRACE_ID) String correlationId){
-        log.debug("createRecipe::Correlation id: {}",correlationId);
+        log.error("createRecipe::Correlation id: {}",correlationId);
         final Recipe recipe1 = recipesService.saveRecipe(recipe);
-        log.debug("createRecipe::Executed::Correlation id: {}",correlationId);
+        log.error("createRecipe::Executed::Correlation id: {}",correlationId);
         return ResponseEntity.ok(recipe1);
 
     }
 
     @PostMapping("/recipes/byBook")
     public ResponseEntity saveRecipesToBook(@RequestBody AddRecipesToBook addRecipesToBook, @RequestHeader(TRACE_ID) String correlationId){
-        log.debug("saveRecipesToBook::Correlation id: {}",correlationId);
+        log.error("saveRecipesToBook::Correlation id: {}",correlationId);
         final RecipesByBook recipesByBook = recipesService.saveRecipesToBook(addRecipesToBook);
-        log.debug("saveRecipesToBook::Executed::Correlation id: {}",correlationId);
+        log.error("saveRecipesToBook::Executed::Correlation id: {}",correlationId);
         return ResponseEntity.ok(recipesService.saveRecipesToBook(addRecipesToBook));
     }
 
     @PutMapping("/recipes/{id}")
     public ResponseEntity updateRecipe(@PathVariable int id, @RequestBody RecipeDTO dto, @RequestHeader(TRACE_ID) String correlationId){
-        log.debug("updateRecipe::Correlation id: {}",correlationId);
+        log.error("updateRecipe::Correlation id: {}",correlationId);
         final Recipe recipe = recipesService.updateRecipe(id, dto);
-        log.debug("updateRecipe::Executed::Correlation id: {}",correlationId);
+        log.error("updateRecipe::Executed::Correlation id: {}",correlationId);
         return ResponseEntity.ok(recipe);
     }
 
     @PutMapping("/recipes/byBook/{id}")
     public ResponseEntity updateCookbook(@PathVariable int id, @RequestBody AddRecipesToBook dto, @RequestHeader(TRACE_ID) String correlationId){
-        log.debug("updateCookbook::Correlation id: {}",correlationId);
+        log.error("updateCookbook::Correlation id: {}",correlationId);
         final RecipesByBook recipesByBook = recipesService.addRecipeToBook(id, dto.getRecipesIds());
-        log.debug("updateCookbook::Executed::Correlation id: {}",correlationId);
+        log.error("updateCookbook::Executed::Correlation id: {}",correlationId);
 
         return ResponseEntity.ok(recipesByBook);
     }

@@ -1,4 +1,4 @@
-
+//
 //
 //package ie.tus.gateway;
 //
@@ -18,7 +18,7 @@
 //    @Bean
 //    public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity serverHttpSecurity) throws Exception {
 //        serverHttpSecurity.authorizeExchange(authorizeExchangeSpec ->
-//            authorizeExchangeSpec.pathMatchers("/actuator/gateway/routes").permitAll().pathMatchers("/b").authenticated()
+//            authorizeExchangeSpec.pathMatchers("/actuator/gateway/routes").permitAll().pathMatchers("/cookbokapp/*").authenticated()
 //            )
 //            .oauth2ResourceServer(oAuth2ResourceServerSpec ->
 //                oAuth2ResourceServerSpec.jwt(Customizer.withDefaults())

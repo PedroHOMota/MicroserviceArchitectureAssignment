@@ -5,13 +5,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 
-import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 
 import ie.tus.DTO.AddRecipesToBook;
-import ie.tus.entities.Cookbook;
+import ie.tus.util.entities.Cookbook;
 import ie.tus.DTO.RecipesByBookDTO;
 import ie.tus.repositories.CategoryRepository;
 import ie.tus.repositories.CookbookRepository;

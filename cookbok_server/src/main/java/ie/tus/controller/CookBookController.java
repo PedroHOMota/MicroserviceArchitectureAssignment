@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ie.tus.DTO.AddRecipesToBook;
 import ie.tus.DTO.RecipesByBookDTO;
-import ie.tus.entities.Cookbook;
+import ie.tus.util.entities.Cookbook;
 import ie.tus.services.CookbookService;
 import jakarta.inject.Inject;
 
@@ -39,40 +39,40 @@ public class CookBookController {
 
     @GetMapping("/cookbook")
     public ResponseEntity<HashMap<Integer,String>> getAllCookbooks(@RequestHeader(TRACE_ID) String correlationId){
-        log.debug("getAllCookbooks::Correlation id: {}",correlationId);
+        log.error("getAllCookbooks::Correlation id: {}",correlationId);
         final HashMap<Integer, String> allCookbooks = cookbookService.getAllCookbooks();
-        log.debug("getAllCookbooks::Executed::Correlation id: {}",correlationId);
+        log.error("getAllCookbooks::Executed::Correlation id: {}",correlationId);
         return ResponseEntity.ok(allCookbooks);
     }
 
     @GetMapping("/cookbook/{id}")
     public ResponseEntity<HashMap<Integer,String>> getCookbook(@PathVariable final int id,@RequestHeader(TRACE_ID) String correlationId){
-        log.debug("getCookbook::Correlation id: {}",correlationId);
+        log.error("getCookbook::Correlation id: {}",correlationId);
         final HashMap<Integer, String> allCookbooks = cookbookService.getAllCookbooks();
-        log.debug("getCookbook::Executed::Correlation id: {}",correlationId);
+        log.error("getCookbook::Executed::Correlation id: {}",correlationId);
         return ResponseEntity.ok(allCookbooks);
     }
 
     @GetMapping("/cookbook/{id}/recipes")
     public ResponseEntity<RecipesByBookDTO> getCookbookRecipes(@PathVariable final int id,@RequestHeader(TRACE_ID) String correlationId){
-        log.debug("getCookbookRecipes::Correlation id: {}",correlationId);
+        log.error("getCookbookRecipes::Correlation id: {}",correlationId);
         final RecipesByBookDTO recipesForBook = cookbookService.getRecipesForBook(id);
-        log.debug("getCookbookRecipes::Executed::Correlation id: {}",correlationId);
+        log.error("getCookbookRecipes::Executed::Correlation id: {}",correlationId);
         return ResponseEntity.ok(recipesForBook);
     }
 
     @DeleteMapping("/cookbook/{id}")
     public ResponseEntity<String> deleteCookBook(@PathVariable final int id,@RequestHeader(TRACE_ID) String correlationId){
-        log.debug("deleteCookBook::Correlation id: {}",correlationId);
+        log.error("deleteCookBook::Correlation id: {}",correlationId);
         cookbookService.deleteCookBook(id);
-        log.debug("deleteCookBook::Executed::Correlation id: {}",correlationId);
+        log.error("deleteCookBook::Executed::Correlation id: {}",correlationId);
         return ResponseEntity.ok("deleted");
     }
 
     @DeleteMapping("/cookbook/{id}/recipes")
     public ResponseEntity<String> deleteCookBookRecipes(@PathVariable final int id,@RequestHeader(TRACE_ID) String correlationId){
-        log.debug("deleteCookBookRecipes::Correlation id: {}",correlationId);
-        log.debug("deleteCookBookRecipes::Executed::Correlation id: {}",correlationId);
+        log.error("deleteCookBookRecipes::Correlation id: {}",correlationId);
+        log.error("deleteCookBookRecipes::Executed::Correlation id: {}",correlationId);
         //send to second one
 
         //cookbookService.getRecipes(id);
@@ -81,25 +81,26 @@ public class CookBookController {
 
     @PostMapping("/cookbook")
     public ResponseEntity<Cookbook> createCookbook(@RequestParam("bookName") final String cookBookTitle,@RequestHeader(TRACE_ID) String correlationId){
-        log.debug("createCookbook::Correlation id: {}",correlationId);
+        log.error("createCookbook::Correlation id: {}",correlationId);
+        System.out.println("createCookbook::Correlation id: "+correlationId);
         final Cookbook cookBook = cookbookService.createCookBook(cookBookTitle);
-        log.debug("createCookbook::Executed::Correlation id: {}",correlationId);
+        log.error("createCookbook::Executed::Correlation id: {}",correlationId);
         return ResponseEntity.ok(cookBook);
     }
 
     @PostMapping("/cookbook/{id}")
     public ResponseEntity<RecipesByBookDTO> saveRecipesToCookbook(@PathVariable final int id, @RequestBody final AddRecipesToBook recipes,@RequestHeader(TRACE_ID) String correlationId){
-        log.debug("saveRecipesToCookbook::Correlation id: {}",correlationId);
+        log.error("saveRecipesToCookbook::Correlation id: {}",correlationId);
         final RecipesByBookDTO recipesByBookDTO = cookbookService.saveRecipesToBook(id, recipes);
-        log.debug("saveRecipesToCookbook::Executed::Correlation id: {}",correlationId);
+        log.error("saveRecipesToCookbook::Executed::Correlation id: {}",correlationId);
         return ResponseEntity.ok(recipesByBookDTO);
     }
 
     @PutMapping("/cookbook/{id}")
     public ResponseEntity<Cookbook> updateCookbook(@PathVariable final int id, @RequestParam("bookName") final String cookBookTitle,@RequestHeader(TRACE_ID) String correlationId){
-        log.debug("updateCookbook::Correlation id: {}",correlationId);
+        log.error("updateCookbook::Correlation id: {}",correlationId);
         final Cookbook cookbook = cookbookService.updateCookBook(id, cookBookTitle);
-        log.debug("updateCookbook::Executed::Correlation id: {}",correlationId);
+        log.error("updateCookbook::Executed::Correlation id: {}",correlationId);
         return ResponseEntity.ok(cookbook);
     }
 

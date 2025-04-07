@@ -1,4 +1,4 @@
-package ie.tus.entities;
+package ie.tus.util.entities;
 
 import java.util.List;
 
