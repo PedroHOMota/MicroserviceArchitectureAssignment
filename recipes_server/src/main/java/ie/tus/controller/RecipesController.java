@@ -34,48 +34,72 @@ public class RecipesController {
     @GetMapping("/recipes/byBook/{bookId}")
     public ResponseEntity<RecipesByBook> getCookbookRecipes(@PathVariable int bookId, @RequestHeader(TRACE_ID) String correlationId){
         log.error("getCookbookRecipes::Correlation id: {}",correlationId);
-        final RecipesByBook recipesBook = recipesService.getRecipesBook(bookId);
-        log.error("getCookbookRecipes::Executed::Correlation id: {}",correlationId);
-        return ResponseEntity.ok(recipesBook);
+        try {
+            final RecipesByBook recipesBook = recipesService.getRecipesBook(bookId);
+            log.error("getCookbookRecipes::Executed::Correlation id: {}", correlationId);
+            return ResponseEntity.ok(recipesBook);
+        } catch (Exception e){
+            log.error("getCookbookRecipes::Failed::Correlation id: {} error: {}", correlationId, e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping("/recipes/{id}")
     public ResponseEntity<Recipe> getRecipe(@PathVariable int id, @RequestHeader(TRACE_ID) String correlationId){
         log.error("getRecipe::Correlation id: {}",correlationId);
-        final Recipe recipe = recipesService.getRecipe(id);
-        log.error("getRecipe::Executed::Correlation id: {}",correlationId);
-        return ResponseEntity.ok(recipe);
+        try {
+            final Recipe recipe = recipesService.getRecipe(id);
+            log.error("getRecipe::Executed::Correlation id: {}", correlationId);
+            return ResponseEntity.ok(recipe);
+        }catch (Exception e){
+            log.error("getRecipe::Failed::Correlation id: {} error: {}", correlationId, e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping("/recipes/all")
-    public ResponseEntity<List<Recipe>> getRecipes(){
-        String correlationId="aa";
-
+    public ResponseEntity<List<Recipe>> getRecipes(@RequestHeader(TRACE_ID) String correlationId){
         log.error("getRecipes::Correlation id: {}",correlationId);
-        final List<Recipe> allRecipes = recipesService.getAllRecipe();
-        log.error("getRecipes::Executed::Correlation id: {}",correlationId);
-        return ResponseEntity.ok(allRecipes);
+        try {
+            final List<Recipe> allRecipes = recipesService.getAllRecipe();
+            log.error("getRecipes::Executed::Correlation id: {}", correlationId);
+            return ResponseEntity.ok(allRecipes);
+        } catch (Exception e){
+            log.error("getRecipes::Failed::Correlation id: {} error: {}", correlationId, e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @DeleteMapping("/recipes/{id}")
     public ResponseEntity deleteRecipe(@PathVariable int id, @RequestHeader(TRACE_ID) String correlationId){
         log.error("deleteRecipe::Correlation id: {}",correlationId);
-        recipesService.deleteRecipe(id);
-        log.error("deleteRecipe::Executed::Correlation id: {}",correlationId);
-        return ResponseEntity.ok("deleted");
+        try {
+            recipesService.deleteRecipe(id);
+            log.error("deleteRecipe::Executed::Correlation id: {}", correlationId);
+            return ResponseEntity.ok("deleted");
+        } catch (Exception e){
+            log.error("deleteRecipe::Failed::Correlation id: {} error: {}", correlationId, e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @DeleteMapping("/recipes/byBook/{bookId}")
     public ResponseEntity deleteCookBook(@PathVariable int id, @RequestHeader(TRACE_ID) String correlationId){
         log.error("deleteCookBook::Correlation id: {}",correlationId);
-        recipesService.deleteRecipesBook(id);
-        log.error("deleteCookBook::Executed::Correlation id: {}",correlationId);
-        return ResponseEntity.ok("deleted");
+        try {
+            recipesService.deleteRecipesBook(id);
+            log.error("deleteCookBook::Executed::Correlation id: {}", correlationId);
+            return ResponseEntity.ok("deleted");
+        } catch (Exception e){
+            log.error("deleteCookBook::Failed::Correlation id: {} error: {}", correlationId, e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PatchMapping("/recipes/byBook/{bookId}")
     public ResponseEntity deleteCookBookRecipes(@PathVariable int id, AddRecipesToBook addRecipesToBook, @RequestHeader(TRACE_ID) String correlationId){
         log.error("deleteCookBookRecipes::Correlation id: {}",correlationId);
+
         //recipesService.deleteRecipesFromBook(id);
         log.error("deleteCookBookRecipes::Executed::Correlation id: {}",correlationId);
 
@@ -85,35 +109,55 @@ public class RecipesController {
     @PostMapping("/recipes")
     public ResponseEntity createRecipe(@RequestBody RecipeDTO recipe, @RequestHeader(TRACE_ID) String correlationId){
         log.error("createRecipe::Correlation id: {}",correlationId);
-        final Recipe recipe1 = recipesService.saveRecipe(recipe);
-        log.error("createRecipe::Executed::Correlation id: {}",correlationId);
-        return ResponseEntity.ok(recipe1);
+        try {
+            final Recipe savedRecipe = recipesService.saveRecipe(recipe);
+            log.error("createRecipe::Executed::Correlation id: {}", correlationId);
+            return ResponseEntity.ok(savedRecipe);
+        } catch (Exception e){
+            log.error("createRecipe::Failed::Correlation id: {} error: {}", correlationId, e);
+            return ResponseEntity.internalServerError().build();
+        }
 
     }
 
     @PostMapping("/recipes/byBook")
     public ResponseEntity saveRecipesToBook(@RequestBody AddRecipesToBook addRecipesToBook, @RequestHeader(TRACE_ID) String correlationId){
         log.error("saveRecipesToBook::Correlation id: {}",correlationId);
-        final RecipesByBook recipesByBook = recipesService.saveRecipesToBook(addRecipesToBook);
-        log.error("saveRecipesToBook::Executed::Correlation id: {}",correlationId);
-        return ResponseEntity.ok(recipesService.saveRecipesToBook(addRecipesToBook));
+        try {
+            final RecipesByBook recipesByBook = recipesService.saveRecipesToBook(addRecipesToBook);
+            log.error("saveRecipesToBook::Executed::Correlation id: {}", correlationId);
+            return ResponseEntity.ok(recipesService.saveRecipesToBook(addRecipesToBook));
+        } catch (Exception e){
+            log.error("saveRecipesToBook::Failed::Correlation id: {} error: {}", correlationId, e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PutMapping("/recipes/{id}")
     public ResponseEntity updateRecipe(@PathVariable int id, @RequestBody RecipeDTO dto, @RequestHeader(TRACE_ID) String correlationId){
         log.error("updateRecipe::Correlation id: {}",correlationId);
-        final Recipe recipe = recipesService.updateRecipe(id, dto);
-        log.error("updateRecipe::Executed::Correlation id: {}",correlationId);
-        return ResponseEntity.ok(recipe);
+        try {
+            final Recipe recipe = recipesService.updateRecipe(id, dto);
+            log.error("updateRecipe::Executed::Correlation id: {}", correlationId);
+            return ResponseEntity.ok(recipe);
+        } catch (Exception e){
+            log.error("updateRecipe::Failed::Correlation id: {} error: {}", correlationId, e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PutMapping("/recipes/byBook/{id}")
     public ResponseEntity updateCookbook(@PathVariable int id, @RequestBody AddRecipesToBook dto, @RequestHeader(TRACE_ID) String correlationId){
         log.error("updateCookbook::Correlation id: {}",correlationId);
-        final RecipesByBook recipesByBook = recipesService.addRecipeToBook(id, dto.getRecipesIds());
-        log.error("updateCookbook::Executed::Correlation id: {}",correlationId);
+        try {
+            final RecipesByBook recipesByBook = recipesService.addRecipeToBook(id, dto.getRecipesIds());
+            log.error("updateCookbook::Executed::Correlation id: {}", correlationId);
 
-        return ResponseEntity.ok(recipesByBook);
+            return ResponseEntity.ok(recipesByBook);
+        } catch (Exception e) {
+            log.error("updateCookbook::Failed::Correlation id: {} error: {}", correlationId, e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
 

@@ -50,6 +50,14 @@ public class CookBookController {
         }
     }
 
+    @GetMapping("/cookbook/break")
+    public ResponseEntity<String> timeOutRequest(@RequestHeader(TRACE_ID) String correlationId) throws Exception{
+        Thread.sleep(15000);
+        log.error("getAllCookbooks::Correlation id: {}",correlationId);
+        return ResponseEntity.ok("allCookbooks");
+
+    }
+
     @GetMapping("/cookbook/{id}")
     public ResponseEntity<Cookbook> getCookbook(@PathVariable final int id,@RequestHeader(TRACE_ID) String correlationId){
         log.error("getCookbook::Correlation id: {}",correlationId);

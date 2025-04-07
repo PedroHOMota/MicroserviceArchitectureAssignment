@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 
 @FeignClient(value = "cookbook")
-public interface RecipesApiFeign {
+public interface  RecipesApiFeign {
     public static final String TRACE_ID = "cookbookap-trace-id";
 
     @GetMapping(value = "/recipes/all", consumes = "application/json")

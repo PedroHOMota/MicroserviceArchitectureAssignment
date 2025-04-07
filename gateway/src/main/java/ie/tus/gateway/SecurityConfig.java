@@ -29,10 +29,10 @@ public class SecurityConfig extends WebSecurityConfiguration {
     public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity serverHttpSecurity) throws Exception {
         serverHttpSecurity.authorizeExchange(authorizeExchangeSpec ->
             authorizeExchangeSpec.pathMatchers("/actuator/**").permitAll()
-                    .pathMatchers(HttpMethod.POST,"/cookbook/**").hasRole("ADMIN")
-                    .pathMatchers(HttpMethod.PUT,"/cookbook/**").hasRole("ADMIN")
-                    .pathMatchers(HttpMethod.DELETE,"/cookbook/**").hasRole("ADMIN")
-                    .pathMatchers(HttpMethod.GET,"/cookbook/**").authenticated()
+//                    .pathMatchers(HttpMethod.POST,"/cookbook/**").hasRole("ADMIN")
+//                    .pathMatchers(HttpMethod.PUT,"/cookbook/**").hasRole("ADMIN")
+//                    .pathMatchers(HttpMethod.DELETE,"/cookbook/**").hasRole("ADMIN")
+                    .pathMatchers("/cookbook/**").authenticated()
 
                     .pathMatchers(HttpMethod.POST,"/recipes/**").hasRole("ADMIN")
                     .pathMatchers(HttpMethod.PUT,"/recipes/**").hasRole("ADMIN")
@@ -41,12 +41,14 @@ public class SecurityConfig extends WebSecurityConfiguration {
                 //.pathMatchers("/recipes/**").authenticated()
             )
             .oauth2ResourceServer(oAuth2ResourceServerSpec ->
-                oAuth2ResourceServerSpec.jwt(jwtSpec -> jwtSpec.jwtAuthenticationConverter(authoritiesExtractor()))
+                oAuth2ResourceServerSpec.jwt(jwtSpec -> Customizer.withDefaults())
             );
         serverHttpSecurity.csrf(csrfSpec -> csrfSpec.disable());
 
         return serverHttpSecurity.build();
     }
+
+
 
     private Converter<Jwt, Mono<AbstractAuthenticationToken>> authoritiesExtractor(){
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
