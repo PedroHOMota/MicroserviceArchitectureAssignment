@@ -16,10 +16,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ie.tus.entities.Category;
 import ie.tus.repositories.CategoryRepository;
 
+@Service
 public class CategoryService {
 
     @Autowired
@@ -35,10 +37,10 @@ public class CategoryService {
         categoryRepo.deleteById(id);
     }
 
-    public Category updateCategory(int id, Category category) {
+    public Category updateCategory(int id, String categoryName) {
         final Category savedCategory = categoryRepo.findById(id).get();
 
-        savedCategory.setname(category.getname());
+        savedCategory.setname(categoryName);
         return categoryRepo.save(savedCategory);
     }
 
@@ -54,6 +56,6 @@ public class CategoryService {
     }
 
     public Category getCategoryById(int id) {
-        return categoryRepo.getReferenceById(id);
+        return categoryRepo.findByCategoryId(id).get();
     }
 }

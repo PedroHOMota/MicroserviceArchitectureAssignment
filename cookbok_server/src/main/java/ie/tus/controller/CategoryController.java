@@ -17,15 +17,21 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import ie.tus.entities.Category;
 import ie.tus.services.CategoryService;
 import ie.tus.services.CookbookService;
 import jakarta.inject.Inject;
 
+@RestController
 public class CategoryController {
     public static final String TRACE_ID = "cookbookap-trace-id";
 
@@ -64,8 +70,8 @@ public class CategoryController {
         }
     }
 
-    @GetMapping("/category")
-    public ResponseEntity<Category> createCategory(@RequestHeader("categoryName") String name, @RequestHeader(TRACE_ID) String correlationId){
+    @PostMapping("/category")
+    public ResponseEntity<Category> createCategory(@RequestParam("categoryName") String name, @RequestHeader(TRACE_ID) String correlationId){
         log.error("createCategory::Correlation id: {}",correlationId);
         try {
             final Category categoryById = categoryService.createCategory(name);
@@ -73,6 +79,32 @@ public class CategoryController {
             return ResponseEntity.ok(categoryById);
         } catch (Exception e){
             log.error("createCategory::Failed::Correlation id: {} error: {}", correlationId, e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PutMapping("/category/{id}")
+    public ResponseEntity<Category> updateCategoryName(@PathVariable int id, @RequestHeader("newCategoryName") String name, @RequestHeader(TRACE_ID) String correlationId){
+        log.error("updateCategoryName::Correlation id: {}",correlationId);
+        try {
+            final Category categoryById = categoryService.updateCategory(id, name);
+            log.error("updateCategoryName::Executed::Correlation id: {}", correlationId);
+            return ResponseEntity.ok(categoryById);
+        } catch (Exception e){
+            log.error("updateCategoryName::Failed::Correlation id: {} error: {}", correlationId, e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("/category/{id}")
+    public ResponseEntity<String> deleteCategory(@PathVariable int id, @RequestHeader(TRACE_ID) String correlationId){
+        log.error("deleteCategory::Correlation id: {}",correlationId);
+        try {
+            categoryService.deleteCategory(id);
+            log.error("deleteCategory::Executed::Correlation id: {}", correlationId);
+            return ResponseEntity.ok("Category "+id+" deleted");
+        } catch (Exception e){
+            log.error("deleteCategory::Failed::Correlation id: {} error: {}", correlationId, e);
             return ResponseEntity.internalServerError().build();
         }
     }

@@ -19,7 +19,7 @@ import ie.tus.DTO.Cookbook;
 import ie.tus.DTO.RecipeDTO;
 import ie.tus.DTO.RecipesByBookDTO;
 
-@FeignClient(value = "cookbook")
+@FeignClient(value = "gateway")
 public interface CookbookApiFeign {
     public static final String TRACE_ID = "cookbookap-trace-id";
 

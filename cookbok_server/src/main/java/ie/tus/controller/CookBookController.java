@@ -1,6 +1,7 @@
 package ie.tus.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ie.tus.DTO.AddRecipesToBook;
+import ie.tus.DTO.CookbookDTO;
 import ie.tus.DTO.RecipesByBookDTO;
 import ie.tus.entities.Category;
 import ie.tus.entities.Cookbook;
@@ -37,12 +39,13 @@ public class CookBookController {
     }
 
     @GetMapping("/cookbook")
-    public ResponseEntity<HashMap<Integer,String>> getAllCookbooks(@RequestHeader(TRACE_ID) String correlationId){
+    public ResponseEntity<List<Cookbook>> getAllCookbooks(@RequestHeader(TRACE_ID) String correlationId){
         log.error("getAllCookbooks::Correlation id: {}",correlationId);
         try {
-            final HashMap<Integer, String> allCookbooks = cookbookService.getAllCookbooks();
+            //final HashMap<Integer, String> allCookbooks = cookbookService.getAllCookbooks();
+            final List<Cookbook> allCookbooksL = cookbookService.getAllCookbooksL();
             log.error("getAllCookbooks::Executed::Correlation id: {}", correlationId);
-            return ResponseEntity.ok(allCookbooks);
+            return ResponseEntity.ok(allCookbooksL);
         } catch (Exception e){
             log.error("getCookbook::Failed::Correlation id: {} error: {}", correlationId, e);
             return ResponseEntity.internalServerError().build();
@@ -107,11 +110,11 @@ public class CookBookController {
     }
 
     @PostMapping("/cookbook")
-    public ResponseEntity<Cookbook> createCookbook(@RequestParam("bookName") final String cookBookTitle,@RequestHeader(TRACE_ID) String correlationId){
+    public ResponseEntity<Cookbook> createCookbook(@RequestBody final CookbookDTO cookbookDTO, @RequestHeader(TRACE_ID) String correlationId){
         log.error("createCookbook::Correlation id: {}",correlationId);
         System.out.println("createCookbook::Correlation id: "+correlationId);
         try {
-            final Cookbook cookBook = cookbookService.createCookBook(cookBookTitle);
+            final Cookbook cookBook = cookbookService.createCookBook(cookbookDTO);
             log.error("createCookbook::Executed::Correlation id: {}", correlationId);
             return ResponseEntity.ok(cookBook);
         } catch (Exception e){
@@ -134,7 +137,7 @@ public class CookBookController {
     }
 
     @PutMapping("/cookbook/{id}")
-    public ResponseEntity<Cookbook> updateCookbook(@PathVariable final int id, @RequestParam("bookName") final String cookBookTitle,@RequestHeader(TRACE_ID) String correlationId){
+    public ResponseEntity<Cookbook> updateCookbook(@PathVariable final int id, @RequestBody final CookbookDTO cookBookTitle,@RequestHeader(TRACE_ID) String correlationId){
         log.error("updateCookbook::Correlation id: {}",correlationId);
         try {
             final Cookbook cookbook = cookbookService.updateCookBook(id, cookBookTitle);

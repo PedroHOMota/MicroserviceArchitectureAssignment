@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -42,11 +43,13 @@ public class Cookbook {
         this.name = value;
     }
 
-//    public List<Category> getCategory() {
-//        return category;
-//    }
-//
-//    public void setCategory(final List<Category> category) {
-//        this.category = category;
-//    }
+    public List<Category> getCategory() {
+        return category;
+    }
+
+    public void setCategory(final List<Category> category) {
+        this.category = category;
+    }
+
+
 }
