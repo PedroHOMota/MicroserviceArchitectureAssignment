@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ie.tus.DTO.AddRecipesToBook;
 import ie.tus.DTO.RecipesByBookDTO;
-import ie.tus.util.entities.Cookbook;
+import ie.tus.entities.Category;
+import ie.tus.entities.Cookbook;
 import ie.tus.services.CookbookService;
 import jakarta.inject.Inject;
 
@@ -28,9 +29,7 @@ public class CookBookController {
 
     private static final Logger log = LoggerFactory.getLogger(CookBookController.class);
 
-
     CookbookService cookbookService;
-
 
     @Inject
     public CookBookController(CookbookService cookbookService){

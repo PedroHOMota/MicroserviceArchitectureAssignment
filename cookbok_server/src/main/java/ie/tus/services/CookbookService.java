@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.netflix.discovery.EurekaClient;
 
 import ie.tus.DTO.AddRecipesToBook;
-import ie.tus.util.entities.Cookbook;
+import ie.tus.entities.Cookbook;
 import ie.tus.DTO.RecipesByBookDTO;
 import ie.tus.repositories.CategoryRepository;
 import ie.tus.repositories.CookbookRepository;
@@ -19,13 +19,7 @@ import jakarta.inject.Inject;
 @Service
 public class CookbookService {
     @Autowired
-    CategoryRepository categoryRepo;
-
-    @Autowired
     CookbookRepository cookbookRepo;
-
-    @Autowired
-    private EurekaClient eurekaClient;
 
     final StringBuilder urlBuilder = new StringBuilder();
 
@@ -61,12 +55,7 @@ public class CookbookService {
         return cookbookRepo.findById(id).get();
     }
 
-//    public HashMap<Integer,String> getAllCategories(){
-//        final HashMap<Integer,String> map = new HashMap<Integer,String>();
-//        categoryRepo.findAll().stream().map(category -> map.put(category.getcategory_id(),category.getname()));
-//
-//        return map;
-//    }
+
     public void deleteCookBook(int id){
         cookbookRepo.deleteByBookId(id);
     }
@@ -78,22 +67,6 @@ public class CookbookService {
 
         return cookbookRepo.save(savedBook);
     }
-
-//    public void createCategory(Category category){
-//        categoryRepo.save(category);
-//    }
-//
-//    public void deleteCategory(int id){
-//        categoryRepo.deleteById(id);
-//    }
-//
-//    public void updateCategory(int id, Category cookbook){
-//        final Category savedCategory = categoryRepo.findById(id).get();
-//
-//        savedCategory.setname(cookbook.getname());
-//        categoryRepo.save(savedCategory);
-//    }
-
 
     public RecipesByBookDTO getRecipesForBook(int id){
         urlBuilder.setLength(0);

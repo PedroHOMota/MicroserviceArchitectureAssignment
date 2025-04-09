@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ie.tus.DTO.AddRecipesToBook;
+import ie.tus.DTO.AddRecipesToBookDTO;
 import ie.tus.DTO.RecipeDTO;
 import ie.tus.entities.Recipe;
 import ie.tus.entities.RecipesByBook;
@@ -56,17 +56,17 @@ public class RecipesService {
         return recipesRepository.save(recipe);
     }
 
-    public RecipesByBook saveRecipesToBook(AddRecipesToBook addRecipesToBook){
+    public RecipesByBook saveRecipesToBook(AddRecipesToBookDTO addRecipesToBookDTO){
         List<Recipe> recipes = new ArrayList<>();
         RecipesByBook recipesByBook = new RecipesByBook();
 
-        for (int id : addRecipesToBook.getRecipesIds()){
+        for (int id : addRecipesToBookDTO.getRecipesIds()){
             final Recipe recipe = getRecipe(id);
             recipes.add(recipe);
         }
 
         recipesByBook.setRecipes(recipes);
-        recipesByBook.setBookId(addRecipesToBook.getBookId());
+        recipesByBook.setBookId(addRecipesToBookDTO.getBookId());
 
         return recipesByBooksRepo.save(recipesByBook);
     }

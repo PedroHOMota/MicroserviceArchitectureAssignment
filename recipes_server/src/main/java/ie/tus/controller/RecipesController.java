@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import ie.tus.DTO.AddRecipesToBook;
+import ie.tus.DTO.AddRecipesToBookDTO;
 import ie.tus.DTO.RecipeDTO;
 import ie.tus.entities.Recipe;
 import ie.tus.entities.RecipesByBook;
@@ -97,7 +97,7 @@ public class RecipesController {
     }
 
     @PatchMapping("/recipes/byBook/{bookId}")
-    public ResponseEntity deleteCookBookRecipes(@PathVariable int id, AddRecipesToBook addRecipesToBook, @RequestHeader(TRACE_ID) String correlationId){
+    public ResponseEntity deleteCookBookRecipes(@PathVariable int id, AddRecipesToBookDTO addRecipesToBookDTO, @RequestHeader(TRACE_ID) String correlationId){
         log.error("deleteCookBookRecipes::Correlation id: {}",correlationId);
 
         //recipesService.deleteRecipesFromBook(id);
@@ -121,12 +121,12 @@ public class RecipesController {
     }
 
     @PostMapping("/recipes/byBook")
-    public ResponseEntity saveRecipesToBook(@RequestBody AddRecipesToBook addRecipesToBook, @RequestHeader(TRACE_ID) String correlationId){
+    public ResponseEntity saveRecipesToBook(@RequestBody AddRecipesToBookDTO addRecipesToBookDTO, @RequestHeader(TRACE_ID) String correlationId){
         log.error("saveRecipesToBook::Correlation id: {}",correlationId);
         try {
-            final RecipesByBook recipesByBook = recipesService.saveRecipesToBook(addRecipesToBook);
+            final RecipesByBook recipesByBook = recipesService.saveRecipesToBook(addRecipesToBookDTO);
             log.error("saveRecipesToBook::Executed::Correlation id: {}", correlationId);
-            return ResponseEntity.ok(recipesService.saveRecipesToBook(addRecipesToBook));
+            return ResponseEntity.ok(recipesService.saveRecipesToBook(addRecipesToBookDTO));
         } catch (Exception e){
             log.error("saveRecipesToBook::Failed::Correlation id: {} error: {}", correlationId, e);
             return ResponseEntity.internalServerError().build();
@@ -147,7 +147,7 @@ public class RecipesController {
     }
 
     @PutMapping("/recipes/byBook/{id}")
-    public ResponseEntity updateCookbook(@PathVariable int id, @RequestBody AddRecipesToBook dto, @RequestHeader(TRACE_ID) String correlationId){
+    public ResponseEntity updateCookbook(@PathVariable int id, @RequestBody AddRecipesToBookDTO dto, @RequestHeader(TRACE_ID) String correlationId){
         log.error("updateCookbook::Correlation id: {}",correlationId);
         try {
             final RecipesByBook recipesByBook = recipesService.addRecipeToBook(id, dto.getRecipesIds());

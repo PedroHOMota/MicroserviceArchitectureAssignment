@@ -1,4 +1,4 @@
-package ie.tus.util.entities;
+package ie.tus.entities;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "COOKBOOK")
@@ -17,9 +18,11 @@ public class Cookbook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bookId;
 
+    @NotBlank(message = "Please provide a category name")
     private String name;
-    //    @OneToMany(cascade = CascadeType.REMOVE)
-    //    private List<Category> category;
+
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<Category> category;
 
 
 

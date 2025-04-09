@@ -1,8 +1,13 @@
 package ie.tus.DTO;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 public class RecipeDTO{
     private String recipe;
     private String ingredients;
+    @NotBlank(message = "Author cant be empty")
+    @Pattern(regexp = "[a-zA-Z ]")
     private String author;
     private String title;
 
