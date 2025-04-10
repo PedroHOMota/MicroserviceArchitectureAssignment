@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,12 +21,13 @@ import ie.tus.DTO.Cookbook;
 import ie.tus.DTO.RecipeDTO;
 import ie.tus.DTO.RecipesByBookDTO;
 
-@FeignClient(value = "gateway")
+@FeignClient(value = "GATEWAY")
+@Controller
 public interface CookbookApiFeign {
     public static final String TRACE_ID = "cookbookap-trace-id";
 
-    @GetMapping(value = "/cookbook", consumes = "application/json")
-    public ResponseEntity<HashMap<Integer,String>> cookbook(@RequestHeader(TRACE_ID) String correlationId);
+    @GetMapping(value = "/cookbook", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Cookbook>> cookbook();
 
     @GetMapping(value = "/cookbook/{id}", consumes = "application/json")
     public ResponseEntity<HashMap<Integer,String>> cookbook(@PathVariable final int id,@RequestHeader(TRACE_ID) String correlationId);

@@ -1,11 +1,12 @@
 package ie.tus.DTO;
 
+import java.util.List;
+
 public class Cookbook {
     private int bookId;
 
     private String name;
-    //    @OneToMany(cascade = CascadeType.REMOVE)
-    //    private List<Category> category;
+    private List<Category> category;
 
 
 
@@ -25,11 +26,11 @@ public class Cookbook {
         this.name = value;
     }
 
-//    public List<Category> getCategory() {
-//        return category;
-//    }
-//
-//    public void setCategory(final List<Category> category) {
-//        this.category = category;
-//    }
+    public List<Category> getCategory() {
+        return category;
+    }
+
+    public void setCategory(final List<Category> category) {
+        this.category = category;
+    }
 }
