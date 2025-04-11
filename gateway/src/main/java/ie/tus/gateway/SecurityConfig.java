@@ -32,8 +32,8 @@ public class SecurityConfig extends WebSecurityConfiguration {
 //                    .pathMatchers(HttpMethod.POST,"/cookbook/**").hasRole("ADMIN")
 //                    .pathMatchers(HttpMethod.PUT,"/cookbook/**").hasRole("ADMIN")
 //                    .pathMatchers(HttpMethod.DELETE,"/cookbook/**").hasRole("ADMIN")
-                    //.pathMatchers("/cookbook/**").authenticated()
-                    .pathMatchers("/cookbook/**").permitAll()
+                    .pathMatchers("/cookbook/**").authenticated()
+                    //.pathMatchers("/cookbook/**").permitAll()
 
                     .pathMatchers(HttpMethod.POST,"/recipes/**").hasRole("ADMIN")
                     .pathMatchers(HttpMethod.PUT,"/recipes/**").hasRole("ADMIN")
