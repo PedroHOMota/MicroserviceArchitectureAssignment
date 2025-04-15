@@ -17,3 +17,9 @@ create table RECIPESBYBOOK(
 );
 
 
+--INSERT INTO RECIPE(title,ingredients,author,recipe) VALUES (1,"BBQ Sauce","Some ingredients","Myself","Sequence of Steps to follow");
+--INSERT INTO RECIPE(title,ingredients,author,recipe) VALUES (2,"Argentinian BBQ","Some ingredients","Myself","Sequence of Steps to follow");
+--INSERT INTO RECIPE(title,ingredients,author,recipe) VALUES (3,"Cake","Some ingredients","Another Author","Sequence of Steps to follow");
+--
+--INSERT INTO RECIPESBYBOOK(book_id,recipe_id) VALUES (1,1);
+--INSERT INTO RECIPESBYBOOK(book_id,recipe_id) VALUES (1,2);

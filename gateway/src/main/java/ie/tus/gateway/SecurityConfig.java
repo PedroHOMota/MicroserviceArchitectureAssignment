@@ -29,16 +29,18 @@ public class SecurityConfig extends WebSecurityConfiguration {
     public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity serverHttpSecurity) throws Exception {
         serverHttpSecurity.authorizeExchange(authorizeExchangeSpec ->
             authorizeExchangeSpec.pathMatchers("/actuator/**").permitAll()
-                   .pathMatchers(HttpMethod.POST,"/cookbook/**").permitAll()
+                   .pathMatchers(HttpMethod.POST,"/cookbook/**").hasRole("ADMIN")
                     .pathMatchers(HttpMethod.PUT,"/cookbook/**").hasRole("ADMIN")
                    .pathMatchers(HttpMethod.DELETE,"/cookbook/**").hasRole("ADMIN")
+                    .pathMatchers(HttpMethod.GET,"/cookbook/1").permitAll()
                     .pathMatchers(HttpMethod.GET,"/cookbook/**").hasRole("ADMIN")
                     //.pathMatchers("/cookbook/**").permitAll()
 
                     .pathMatchers(HttpMethod.POST,"/recipes/**").hasRole("ADMIN")
+                    .pathMatchers(HttpMethod.PATCH,"/recipes/**").hasRole("ADMIN")
                     .pathMatchers(HttpMethod.PUT,"/recipes/**").hasRole("ADMIN")
                     .pathMatchers(HttpMethod.DELETE,"/recipes/**").hasRole("ADMIN")
-                    .pathMatchers(HttpMethod.GET,"/recipes/**").authenticated()
+                    .pathMatchers(HttpMethod.GET,"/recipes/**").permitAll()
                 //.pathMatchers("/recipes/**").authenticated()
             )
                 .oauth2ResourceServer(oAuth2ResourceServerSpec ->
