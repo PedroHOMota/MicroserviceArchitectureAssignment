@@ -2,16 +2,7 @@ package ie.tus.entities;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 
 @Entity
@@ -19,12 +10,13 @@ import jakarta.validation.constraints.Min;
     public class RecipesByBook {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "recipe_by_book_id")
     private int id;
 
     @Column(name = "book_id", nullable = false)
     private int bookId;
 
-    @OneToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     private List<Recipe> recipes;
 
     public int getId() {
