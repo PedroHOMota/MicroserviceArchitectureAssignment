@@ -1,7 +1,12 @@
 package ie.tus.DTO;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+
 public class AddRecipesToBook {
+    @NotBlank
     int bookId;
+    @NotEmpty
     int[] recipesIds;
 
     public int getBookId() {

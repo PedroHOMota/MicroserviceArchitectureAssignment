@@ -4,11 +4,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 public class RecipeDTO{
+    @NotBlank(message = "Recipe cant be empty")
     private String recipe;
+    @NotBlank(message = "Ingredients cant be empty")
     private String ingredients;
     @NotBlank(message = "Author cant be empty")
-    @Pattern(regexp = "[a-zA-Z ]")
+    @Pattern(regexp = "[a-zA-Z ]*")
     private String author;
+    @NotBlank(message = "Title cant be empty")
     private String title;
 
     public String getRecipe() {

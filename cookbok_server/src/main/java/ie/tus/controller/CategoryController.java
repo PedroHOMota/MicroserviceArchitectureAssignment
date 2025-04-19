@@ -17,6 +17,7 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,7 @@ import ie.tus.services.CookbookService;
 import jakarta.inject.Inject;
 
 @RestController
+@Validated
 public class CategoryController {
     public static final String TRACE_ID = "cookbookap-trace-id";
 
@@ -84,7 +86,7 @@ public class CategoryController {
     }
 
     @PutMapping("/category/{id}")
-    public ResponseEntity<Category> updateCategoryName(@PathVariable int id, @RequestHeader("newCategoryName") String name, @RequestHeader(TRACE_ID) String correlationId){
+    public ResponseEntity<Category> updateCategoryName(@PathVariable int id, @RequestParam("newCategoryName") String name, @RequestHeader(TRACE_ID) String correlationId){
         log.error("updateCategoryName::Correlation id: {}",correlationId);
         try {
             final Category categoryById = categoryService.updateCategory(id, name);
@@ -100,9 +102,10 @@ public class CategoryController {
     public ResponseEntity<String> deleteCategory(@PathVariable int id, @RequestHeader(TRACE_ID) String correlationId){
         log.error("deleteCategory::Correlation id: {}",correlationId);
         try {
+            final Category categoryById = categoryService.getCategoryById(id);
             categoryService.deleteCategory(id);
             log.error("deleteCategory::Executed::Correlation id: {}", correlationId);
-            return ResponseEntity.ok("Category "+id+" deleted");
+            return ResponseEntity.ok("Category "+categoryById.getname()+" deleted");
         } catch (Exception e){
             log.error("deleteCategory::Failed::Correlation id: {} error: {}", correlationId, e);
             return ResponseEntity.internalServerError().build();

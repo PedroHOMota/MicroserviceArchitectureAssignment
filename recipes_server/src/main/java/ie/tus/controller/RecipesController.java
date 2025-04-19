@@ -18,6 +18,7 @@ import ie.tus.DTO.RecipeDTO;
 import ie.tus.entities.Recipe;
 import ie.tus.entities.RecipesByBook;
 import ie.tus.services.RecipesService;
+import jakarta.validation.Valid;
 
 @RestController
 public class RecipesController {
@@ -29,7 +30,8 @@ public class RecipesController {
     RecipesService recipesService;
 
     @GetMapping("/recipes/byBook/{bookId}")
-    public ResponseEntity<RecipesByBook> getCookbookRecipes(@PathVariable int bookId, @RequestHeader(TRACE_ID) String correlationId){
+    public ResponseEntity<RecipesByBook> getCookbookRecipes(@PathVariable int bookId){
+        String correlationId = "asdasdad";
         log.error("getCookbookRecipes::Correlation id: {}",correlationId);
         try {
             final RecipesByBook recipesBook = recipesService.getRecipesBook(bookId);
@@ -71,9 +73,10 @@ public class RecipesController {
     public ResponseEntity deleteRecipe(@PathVariable int id, @RequestHeader(TRACE_ID) String correlationId){
         log.error("deleteRecipe::Correlation id: {}",correlationId);
         try {
+            final Recipe recipe = recipesService.getRecipe(id);
             recipesService.deleteRecipe(id);
             log.error("deleteRecipe::Executed::Correlation id: {}", correlationId);
-            return ResponseEntity.ok("deleted");
+            return ResponseEntity.ok("Recipe: "+recipe.getTitle()+": id "+recipe.getRecipeId()+" deleted");
         } catch (Exception e){
             log.error("deleteRecipe::Failed::Correlation id: {} error: {}", correlationId, e);
             return ResponseEntity.internalServerError().build();
@@ -93,18 +96,8 @@ public class RecipesController {
         }
     }
 
-    @PatchMapping("/recipes/byBook/{bookId}")
-    public ResponseEntity deleteCookBookRecipes(@PathVariable int id, AddRecipesToBookDTO addRecipesToBookDTO, @RequestHeader(TRACE_ID) String correlationId){
-        log.error("deleteCookBookRecipes::Correlation id: {}",correlationId);
-
-        //recipesService.deleteRecipesFromBook(id);
-        log.error("deleteCookBookRecipes::Executed::Correlation id: {}",correlationId);
-
-        return ResponseEntity.ok("deleted");
-    }
-
     @PostMapping("/recipes")
-    public ResponseEntity createRecipe(@RequestBody RecipeDTO recipe, @RequestHeader(TRACE_ID) String correlationId){
+    public ResponseEntity createRecipe(@Valid @RequestBody RecipeDTO recipe, @RequestHeader(TRACE_ID) String correlationId){
         log.error("createRecipe::Correlation id: {}",correlationId);
         try {
             final Recipe savedRecipe = recipesService.saveRecipe(recipe);
@@ -118,7 +111,7 @@ public class RecipesController {
     }
 
     @PostMapping("/recipes/byBook")
-    public ResponseEntity saveRecipesToBook(@RequestBody AddRecipesToBookDTO addRecipesToBookDTO, @RequestHeader(TRACE_ID) String correlationId){
+    public ResponseEntity saveRecipesToBook(@Valid @RequestBody AddRecipesToBookDTO addRecipesToBookDTO, @RequestHeader(TRACE_ID) String correlationId){
         log.error("saveRecipesToBook::Correlation id: {}",correlationId);
         try {
             final RecipesByBook recipesByBook = recipesService.saveRecipesToBook(addRecipesToBookDTO);
@@ -131,7 +124,7 @@ public class RecipesController {
     }
 
     @PutMapping("/recipes/{id}")
-    public ResponseEntity updateRecipe(@PathVariable int id, @RequestBody RecipeDTO dto, @RequestHeader(TRACE_ID) String correlationId){
+    public ResponseEntity updateRecipe(@Valid @PathVariable int id, @RequestBody RecipeDTO dto, @RequestHeader(TRACE_ID) String correlationId){
         log.error("updateRecipe::Correlation id: {}",correlationId);
         try {
             final Recipe recipe = recipesService.updateRecipe(id, dto);
@@ -157,11 +150,10 @@ public class RecipesController {
         }
     }
 
-
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
-            MethodArgumentNotValidException ex) {
+        MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();

@@ -83,7 +83,7 @@ public class CookbookService {
         urlBuilder.append(restClient.getBaseUrl("RECIPES")).append("/recipes/byBook/").append(id);
 
         restClient.performDelete(urlBuilder.toString());
-        cookbookRepo.deleteByBookId(id);
+        cookbookRepo.deleteById(id);
     }
 
     public Cookbook updateCookBook(int id, CookbookDTO cookbookDTO){

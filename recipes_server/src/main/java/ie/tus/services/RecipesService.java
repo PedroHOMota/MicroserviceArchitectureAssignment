@@ -41,9 +41,8 @@ public class RecipesService {
         return recipesRepository.findAll();
     }
 
-    public void deleteRecipe(int recipeId){
-        recipesRepository.deleteById(recipeId);
-
+    public void deleteRecipe(int id){
+        recipesRepository.deleteById(id);
     }
 
     public Recipe updateRecipe(int recipeId, RecipeDTO updated){

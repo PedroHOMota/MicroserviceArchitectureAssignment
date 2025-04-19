@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ import ie.tus.entities.Category;
 import ie.tus.entities.Cookbook;
 import ie.tus.services.CookbookService;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 
 @RestController
 public class CookBookController {
@@ -85,9 +87,10 @@ public class CookBookController {
     public ResponseEntity<String> deleteCookBook(@PathVariable final int id,@RequestHeader(TRACE_ID) String correlationId){
         log.error("deleteCookBook::Correlation id: {}",correlationId);
         try {
+            final Cookbook cookBookById = cookbookService.getCookBookById(id);
             cookbookService.deleteCookBook(id);
             log.error("deleteCookBook::Executed::Correlation id: {}", correlationId);
-            return ResponseEntity.ok("deleted");
+            return ResponseEntity.ok("Cookbook "+cookBookById.getName()+" deleted");
         } catch (Exception e){
             log.error("deleteCookBook::Failed::Correlation id: {} error: {}", correlationId, e);
             return ResponseEntity.internalServerError().build();
@@ -98,15 +101,12 @@ public class CookBookController {
     public ResponseEntity<String> deleteCookBookRecipes(@PathVariable final int id,@RequestHeader(TRACE_ID) String correlationId){
         log.error("deleteCookBookRecipes::Correlation id: {}",correlationId);
         log.error("deleteCookBookRecipes::Executed::Correlation id: {}",correlationId);
-        //send to second one
-
-        //cookbookService.getRecipes(id);
         cookbookService.deleteCookBook(id);
         return ResponseEntity.ok("0recipes");
     }
 
     @PostMapping("/cookbook")
-    public ResponseEntity<Cookbook> createCookbook(@RequestBody final CookbookDTO cookbookDTO, @RequestHeader(TRACE_ID) String correlationId){
+    public ResponseEntity<Cookbook> createCookbook(@Valid @RequestBody final CookbookDTO cookbookDTO, @RequestHeader(TRACE_ID) String correlationId){
         log.error("createCookbook::Correlation id: {}",correlationId);
         System.out.println("createCookbook::Correlation id: "+correlationId);
         try {
@@ -120,7 +120,7 @@ public class CookBookController {
     }
 
     @PostMapping("/cookbook/{id}")
-    public ResponseEntity<RecipesByBookDTO> saveRecipesToCookbook(@PathVariable final int id, @RequestBody final AddRecipesToBook recipes,@RequestHeader(TRACE_ID) String correlationId){
+    public ResponseEntity<RecipesByBookDTO> saveRecipesToCookbook(@Valid @PathVariable final int id, @RequestBody final AddRecipesToBook recipes,@RequestHeader(TRACE_ID) String correlationId){
         log.error("saveRecipesToCookbook::Correlation id: {}",correlationId);
         try {
             final RecipesByBookDTO recipesByBookDTO = cookbookService.saveRecipesToBook(id, recipes);
