@@ -53,10 +53,9 @@ public class PerformRest {
             .body(returnClass);
     }
 
-    public Object performDelete(String url,Object body, Class returnClass){
-        return restClient.delete()
+    public void performDelete(String url){
+        restClient.delete()
             .uri(url)
-            .retrieve()
-            .body(returnClass);
+            .retrieve();
     }
 }

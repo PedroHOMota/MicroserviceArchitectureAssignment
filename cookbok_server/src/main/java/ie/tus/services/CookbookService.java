@@ -79,6 +79,10 @@ public class CookbookService {
 
 
     public void deleteCookBook(int id){
+        urlBuilder.setLength(0);
+        urlBuilder.append(restClient.getBaseUrl("RECIPES")).append("/recipes/byBook/").append(id);
+
+        restClient.performDelete(urlBuilder.toString());
         cookbookRepo.deleteByBookId(id);
     }
 
@@ -112,9 +116,6 @@ public class CookbookService {
     public RecipesByBookDTO getRecipesForBook(int id){
         urlBuilder.setLength(0);
         urlBuilder.append(restClient.getBaseUrl("RECIPES")).append("/recipes/byBook/").append(id);
-
-
-        System.out.println("\nURL: "+urlBuilder.toString());
 
         return (RecipesByBookDTO) restClient.performGet(urlBuilder.toString(),RecipesByBookDTO.class);
     }

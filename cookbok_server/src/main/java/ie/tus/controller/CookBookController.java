@@ -38,7 +38,6 @@ public class CookBookController {
     public ResponseEntity<List<Cookbook>> getAllCookbooks(@RequestHeader(TRACE_ID) String correlationId){
         log.error("getAllCookbooks::Correlation id: {}",correlationId);
         try {
-            //final HashMap<Integer, String> allCookbooks = cookbookService.getAllCookbooks();
             final List<Cookbook> allCookbooksL = cookbookService.getAllCookbooksL();
             log.error("getAllCookbooks::Executed::Correlation id: {}", correlationId);
             return ResponseEntity.ok(allCookbooksL);
@@ -102,6 +101,7 @@ public class CookBookController {
         //send to second one
 
         //cookbookService.getRecipes(id);
+        cookbookService.deleteCookBook(id);
         return ResponseEntity.ok("0recipes");
     }
 
