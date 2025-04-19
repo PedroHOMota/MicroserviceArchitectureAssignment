@@ -24,17 +24,12 @@ public class GatewayApplication {
 	public RouteLocator mainRoute(RouteLocatorBuilder routeLocatorBuilder){
 		return routeLocatorBuilder.routes().route(predicate ->
 			predicate.path("/cookbook/**").filters(f -> f.circuitBreaker(config -> config.setName("cookbookCircuitBreak")
-					.setFallbackUri("forward:/recipes/all")))
+					.setFallbackUri("forward:/contactSupport")))
 				.uri("lb://COOKBOOK")
 		).route(predicate ->
 			predicate.path("/recipes/**").filters(f -> f.circuitBreaker(config -> config.setName("recipesCircuitBreak")
 				.setFallbackUri("forward:/contactSupport"))).uri("lb://RECIPES")).build();
 	}
 
-//	@Bean
-//	KeyResolver userKeyResolver() {
-//		return exchange -> Mono.justOrEmpty(exchange.getRequest().getHeaders().getFirst("user"))
-//			.defaultIfEmpty("anonymous");
-//	}
 
 }

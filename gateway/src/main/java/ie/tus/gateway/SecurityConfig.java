@@ -41,12 +41,9 @@ public class SecurityConfig extends WebSecurityConfiguration {
                     .pathMatchers(HttpMethod.PUT,"/recipes/**").hasRole("ADMIN")
                     .pathMatchers(HttpMethod.DELETE,"/recipes/**").hasRole("ADMIN")
                     .pathMatchers(HttpMethod.GET,"/recipes/**").permitAll()
-                //.pathMatchers("/recipes/**").authenticated()
             )
                 .oauth2ResourceServer(oAuth2ResourceServerSpec ->
                                 oAuth2ResourceServerSpec.jwt(jwtSpec -> jwtSpec.jwtAuthenticationConverter(authoritiesExtractor()))
-//            .oauth2ResourceServer(oAuth2ResourceServerSpec ->
-//                oAuth2ResourceServerSpec.jwt(jwtSpec -> Customizer.withDefaults())
             );
         serverHttpSecurity.csrf(csrfSpec -> csrfSpec.disable());
 
